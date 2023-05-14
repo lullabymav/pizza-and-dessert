@@ -35,17 +35,7 @@ Widget _buildListPizzaBody(){
         }
         if(snapshot.hasData){
           ListPizzaModel listPizzaModel = ListPizzaModel.fromJson(snapshot.data);
-          return GridView.builder(
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 250,
-                  childAspectRatio: 4 / 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10
-              ),
-              itemBuilder: (context, index){
-                return _buildSuccessSection(listPizzaModel);
-              }
-          );
+          return _buildSuccessSection(listPizzaModel);
         }
         return _buildLoadingSection();
       },
@@ -71,28 +61,38 @@ Widget _buildLoadingSection(){
 }
 
 Widget _buildSuccessSection(ListPizzaModel data){
-  return InkWell(
-    onTap: (){},
-    child: GridTile(
-      child: Image.network(
-        data.img!,
-        fit: BoxFit.cover,
+  return GridView.builder(
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 250,
+          childAspectRatio: 4 / 3,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10
       ),
-      footer: GridTileBar(
-        backgroundColor: Colors.black38,
-        title: Text(
-          data.name!,
-          style: TextStyle(
-            fontSize: 16
+      itemBuilder: (context, index){
+        return InkWell(
+          onTap: (){},
+          child: GridTile(
+            child: Image.network(
+              data.img!,
+              fit: BoxFit.cover,
+            ),
+            footer: GridTileBar(
+              backgroundColor: Colors.black38,
+              title: Text(
+                data.name!,
+                style: TextStyle(
+                    fontSize: 16
+                ),
+              ),
+              subtitle: Text(
+                data.price!.toString(),
+                style: TextStyle(
+                    fontSize: 10
+                ),
+              ),
+            ),
           ),
-        ),
-        subtitle: Text(
-          data.price!.toString(),
-          style: TextStyle(
-            fontSize: 10
-          ),
-        ),
-      ),
-    ),
+        );
+      }
   );
 }
