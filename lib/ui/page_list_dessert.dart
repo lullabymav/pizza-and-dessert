@@ -33,7 +33,6 @@ Widget _buildListDessertBody(){
           return _buildErrorSection();
         }
         if(snapshot.hasData){
-          ListDessertModel listDessertModel = ListDessertModel.fromJson(snapshot.data);
           return GridView.builder(
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 250,
@@ -41,7 +40,9 @@ Widget _buildListDessertBody(){
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10
               ),
+              itemCount: snapshot.data!.length,
               itemBuilder: (context, index){
+                ListDessertModel listDessertModel = ListDessertModel.fromJson(snapshot.data![index]);
                 return _buildSuccessSection(listDessertModel);
               }
           );
@@ -86,7 +87,7 @@ Widget _buildSuccessSection(ListDessertModel data){
           ),
         ),
         subtitle: Text(
-          data.price!.toString(),
+          'price : Rp' + data.price!.toString() + "0.000",
           style: TextStyle(
               fontSize: 10
           ),

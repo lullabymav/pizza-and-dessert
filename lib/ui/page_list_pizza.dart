@@ -34,7 +34,6 @@ Widget _buildListPizzaBody(){
           return _buildErrorSection();
         }
         if(snapshot.hasData){
-          ListPizzaModel listPizzaModel = ListPizzaModel.fromJson(snapshot.data);
           return GridView.builder(
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 250,
@@ -42,7 +41,9 @@ Widget _buildListPizzaBody(){
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10
               ),
+              itemCount: snapshot.data!.length,
               itemBuilder: (context, index){
+                ListPizzaModel listPizzaModel = ListPizzaModel.fromJson(snapshot.data![index]);
                 return _buildSuccessSection(listPizzaModel);
               }
           );
@@ -87,7 +88,7 @@ Widget _buildSuccessSection(ListPizzaModel data){
           ),
         ),
         subtitle: Text(
-          data.price!.toString(),
+          'price : Rp' + data.price!.toString() + "0.000",
           style: TextStyle(
             fontSize: 10
           ),
