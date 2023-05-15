@@ -84,7 +84,7 @@ Widget _buildSuccessSection(BuildContext context, DetailPizzaModel data){
             )
           ),
         ),
-        Text("desc : " + data.description!),
+        Text(data.description!),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: Row(

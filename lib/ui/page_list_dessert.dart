@@ -1,5 +1,6 @@
 import 'package:final_project_tpm_pizza/base/api_data_source.dart';
 import 'package:final_project_tpm_pizza/model/list_dessert_model.dart';
+import 'package:final_project_tpm_pizza/ui/page_detail_dessert.dart';
 import 'package:flutter/material.dart';
 
 class PageListDessert extends StatefulWidget {
@@ -43,7 +44,35 @@ Widget _buildListDessertBody(){
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index){
                 ListDessertModel listDessertModel = ListDessertModel.fromJson(snapshot.data![index]);
-                return _buildSuccessSection(listDessertModel);
+                return InkWell(
+                  onTap: (){
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => PageDetailDessert(dessert: listDessertModel))
+                    );
+                  },
+                  child: GridTile(
+                    child: Image.network(
+                      listDessertModel.img!,
+                      fit: BoxFit.cover,
+                    ),
+                    footer: GridTileBar(
+                      backgroundColor: Colors.black38,
+                      title: Text(
+                        listDessertModel.name!,
+                        style: TextStyle(
+                            fontSize: 16
+                        ),
+                      ),
+                      subtitle: Text(
+                        'price : Rp' + listDessertModel.price!.toString() + "0.000",
+                        style: TextStyle(
+                            fontSize: 10
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+                  //_buildSuccessSection(listDessertModel);
               }
           );
         }
@@ -70,29 +99,6 @@ Widget _buildLoadingSection(){
   );
 }
 
-Widget _buildSuccessSection(ListDessertModel data){
-  return InkWell(
-    onTap: (){},
-    child: GridTile(
-      child: Image.network(
-        data.img!,
-        fit: BoxFit.cover,
-      ),
-      footer: GridTileBar(
-        backgroundColor: Colors.black38,
-        title: Text(
-          data.name!,
-          style: TextStyle(
-              fontSize: 16
-          ),
-        ),
-        subtitle: Text(
-          'price : Rp' + data.price!.toString() + "0.000",
-          style: TextStyle(
-              fontSize: 10
-          ),
-        ),
-      ),
-    ),
-  );
-}
+// Widget _buildSuccessSection(ListDessertModel data){
+//   return
+// }

@@ -1,5 +1,6 @@
 import 'package:final_project_tpm_pizza/ui/page_list_dessert.dart';
 import 'package:final_project_tpm_pizza/ui/page_list_pizza.dart';
+import 'package:final_project_tpm_pizza/ui/time_converter.dart';
 import 'package:flutter/material.dart';
 
 class Menu extends StatefulWidget {
@@ -80,7 +81,11 @@ class _MenuState extends State<Menu> {
               Card(
                 margin: const EdgeInsets.all(8.0),
                 child: InkWell(
-                  onTap: (){},
+                  onTap: (){
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => TimeConverter())
+                    );
+                  },
                   splashColor: Colors.blue,
                   child: Center(
                     child: Column(
