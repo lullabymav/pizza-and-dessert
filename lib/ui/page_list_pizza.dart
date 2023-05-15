@@ -1,5 +1,6 @@
 import 'package:final_project_tpm_pizza/base/api_data_source.dart';
 import 'package:final_project_tpm_pizza/model/list_pizza_model.dart';
+import 'package:final_project_tpm_pizza/ui/page_detail_pizza.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +45,35 @@ Widget _buildListPizzaBody(){
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index){
                 ListPizzaModel listPizzaModel = ListPizzaModel.fromJson(snapshot.data![index]);
-                return _buildSuccessSection(listPizzaModel);
+                return InkWell(
+                  onTap: (){
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => PageDetailPizza(pizza: listPizzaModel))
+                    );
+                  },
+                  child: GridTile(
+                    child: Image.network(
+                      listPizzaModel.img!,
+                      fit: BoxFit.cover,
+                    ),
+                    footer: GridTileBar(
+                      backgroundColor: Colors.black38,
+                      title: Text(
+                        listPizzaModel.name!,
+                        style: TextStyle(
+                            fontSize: 16
+                        ),
+                      ),
+                      subtitle: Text(
+                        'price : Rp' + listPizzaModel.price!.toString() + "0.000",
+                        style: TextStyle(
+                            fontSize: 10
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+                  //_buildSuccessSection(listPizzaModel);
               }
           );
         }
@@ -71,29 +100,6 @@ Widget _buildLoadingSection(){
   );
 }
 
-Widget _buildSuccessSection(ListPizzaModel data){
-  return InkWell(
-    onTap: (){},
-    child: GridTile(
-      child: Image.network(
-        data.img!,
-        fit: BoxFit.cover,
-      ),
-      footer: GridTileBar(
-        backgroundColor: Colors.black38,
-        title: Text(
-          data.name!,
-          style: TextStyle(
-            fontSize: 16
-          ),
-        ),
-        subtitle: Text(
-          'price : Rp' + data.price!.toString() + "0.000",
-          style: TextStyle(
-            fontSize: 10
-          ),
-        ),
-      ),
-    ),
-  );
-}
+// Widget _buildSuccessSection(ListPizzaModel data){
+//   return
+// }

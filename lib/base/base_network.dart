@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 
 class BaseNetwork {
   static final String baseUrl = "https://pizza-and-desserts.p.rapidapi.com";
-  static final key = 'c3285c4bf3mshdc56dad48269ebfp1d1837jsne15c9fe50be5';
+  static final key = '';
+  // '1b68a1ff48msh64dd3c6aac1d156p1ca38ajsne97546bd64ab'
 
   static Future<Map<String, dynamic>> get(String partUrl) async {
     final String fullUrl = baseUrl + "/" + partUrl;

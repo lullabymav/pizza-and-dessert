@@ -8,9 +8,9 @@ class ApiDataSource {
     // "https://pizza-and-desserts.p.rapidapi.com/pizzas?rapidapi-key=014e1274d4msh92616d462e08163p11eeabjsn372db3b2da98"
   }
 
-  Future<List<dynamic>> loadDetailPizza(int idDiterima) {
+  Future<Map<String, dynamic>> loadDetailPizza(int idDiterima) {
     String id = idDiterima.toString();
-    return BaseNetwork.getList("pizzas/$id"); // get api pizza
+    return BaseNetwork.get("pizzas/$id"); // get api pizza
     // "https://pizza-and-desserts.p.rapidapi.com/pizzas/1?rapidapi-key=014e1274d4msh92616d462e08163p11eeabjsn372db3b2da98"
   }
 
@@ -19,9 +19,9 @@ class ApiDataSource {
     // "https://pizza-and-desserts.p.rapidapi.com/desserts?rapidapi-key=014e1274d4msh92616d462e08163p11eeabjsn372db3b2da98"
   }
 
-  Future<List<dynamic>> loadDetailDessert(int idDiterima) {
+  Future<Map<String, dynamic>> loadDetailDessert(int idDiterima) {
     String id = idDiterima.toString();
-    return BaseNetwork.getList("desserts/$id"); // get api pizza
+    return BaseNetwork.get("desserts/$id"); // get api pizza
     // "https://pizza-and-desserts.p.rapidapi.com/desserts/1?rapidapi-key=014e1274d4msh92616d462e08163p11eeabjsn372db3b2da98"
   }
 }
