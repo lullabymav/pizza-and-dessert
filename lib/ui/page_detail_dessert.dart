@@ -31,7 +31,7 @@ Widget _buildDetailDessertBody(int id){
   return Container(
     padding: const EdgeInsets.all(8.0),
     child: FutureBuilder(
-      future: ApiDataSource.instance.loadDetailPizza(id),
+      future: ApiDataSource.instance.loadDetailDessert(id),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if(snapshot.hasError){
           return _buildErrorSection();
