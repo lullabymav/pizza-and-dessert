@@ -1,3 +1,4 @@
+import 'package:final_project_tpm_pizza/ui/currency_converter.dart';
 import 'package:final_project_tpm_pizza/ui/page_list_dessert.dart';
 import 'package:final_project_tpm_pizza/ui/page_list_pizza.dart';
 import 'package:final_project_tpm_pizza/ui/time_converter.dart';
@@ -64,7 +65,11 @@ class _MenuState extends State<Menu> {
               Card(
                 margin: const EdgeInsets.all(8.0),
                 child: InkWell(
-                  onTap: (){},
+                  onTap: (){
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => CurrencyConverter())
+                    );
+                  },
                   splashColor: Colors.green,
                   child: Center(
                     child: Column(

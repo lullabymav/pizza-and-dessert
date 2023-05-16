@@ -1,5 +1,7 @@
 import 'package:final_project_tpm_pizza/ui/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'menu.dart';
 
@@ -11,7 +13,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Box? box1;
   int _selectedIndex = 0;
+
+  @override
+  void initState(){
+    super.initState();
+    openBox();
+  }
+
+  void openBox()async{
+    box1 = await Hive.openBox('logindata');
+    setState(() {
+
+    });
+  }
 
   static List<Widget> _widgetOptions = <Widget>[
     Menu(),

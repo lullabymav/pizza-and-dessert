@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'package:final_project_tpm_pizza/ui/homepage.dart';
 import 'package:final_project_tpm_pizza/ui/login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 class RegistrationPage extends StatefulWidget {
   RegistrationPage({Key? key}) : super(key: key);
@@ -177,15 +174,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
             String text = "";
             print('Registration Clicked Event');
             registration();
+
             // if(email == email && password == password){
             //   setState(() {
             //     //isLoginSuccess = true;
             //     text = 'Login Success';
-            //     Navigator.pushReplacement(context,
-            //         MaterialPageRoute(
-            //             builder: (context) => HomePage()
-            //         )
-            //     );
+            //
             //   });
             // } else {
             //   setState(() {
@@ -222,7 +216,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
     print('Data: ${data}');
     if(data['success']=='1'){
-
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(
+              builder: (context) => LoginPage()
+          )
+      );
     }
   }
 }

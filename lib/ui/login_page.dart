@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -14,9 +16,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+  TextEditingController pass = TextEditingController();
   bool isChecked = false;
-  bool isLoginSuccess = true;
+  //bool isLogged = true;
 
   late Box box1;
 
@@ -39,8 +41,8 @@ class _LoginPageState extends State<LoginPage> {
 
       });
     }
-    if(box1.get('password')!=null){
-      password.text = box1.get('password');
+    if(box1.get('pass')!=null){
+      pass.text = box1.get('pass');
       isChecked = true;
       setState(() {
 
@@ -74,7 +76,10 @@ class _LoginPageState extends State<LoginPage> {
                   MaterialPageRoute(builder: (context) => RegistrationPage())
               );
             },
-            child: Text('Register Now'),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Text('New User? Register Now'),
+            ),
           )
         )
     );
@@ -111,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: TextFormField(
-        controller: password,
+        controller: pass,
         obscureText: true,
         decoration: InputDecoration(
           labelText: 'Password',
@@ -165,37 +170,63 @@ class _LoginPageState extends State<LoginPage> {
           String text = "";
           print('Login Clicked Event');
           login();
-          if(email == email && password == password){
-            setState(() {
-              isLoginSuccess = true;
-              text = 'Login Success';
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(
-                      builder: (context) => HomePage()
-                  )
-              );
-            });
-          } else {
-            setState(() {
-              isLoginSuccess = false;
-              text = 'Login Failed, Username or Password Wrong';
-            });
-          }
-
-          SnackBar snackBar = SnackBar(
-              content: Text(text)
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          // if(email == email.text && pass == pass.text){
+          //   setState(() {
+          //     isLoginSuccess = true;
+          //     text = 'Login Success';
+          //     Navigator.pushReplacement(context,
+          //         MaterialPageRoute(
+          //             builder: (context) => HomePage()
+          //         )
+          //     );
+          //   });
+          // } else {
+          //   setState(() {
+          //     isLoginSuccess = false;
+          //     text = 'Login Failed, Username or Password Wrong';
+          //   });
+          // }
+          //
+          // SnackBar snackBar = SnackBar(
+          //     content: Text(text)
+          // );
+          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
         child: Text('Login')
       ),
     );
   }
 
-  void login(){
-    if(isChecked){
-      box1.put('email', email.text);
-      box1.put('password', password.text);
+  void login() async {
+    var uri = "http://localhost/semester_6_BE/login.php";
+
+    Map maped = {
+      'email': email.text,
+      'pass': pass.text
+    };
+
+    http.Response response = await http.post(Uri.parse(uri),
+      body: maped
+    );
+
+    var data = jsonDecode(response.body);
+
+    // after successfull login, save user data in hive DB
+    if(data['success'] == '1'){
+      if(isChecked){
+        box1.put('email', email.value.text);
+        box1.put('pass', pass.value.text);
+      }
+      box1.put('WelPage_firstName', data['firstName']);
+      box1.put('WelPage_lastName', data['lastName']);
+      box1.put('WelPage_email', data['email']);
+      box1.put('WelPage_pass', data['pass']);
+      box1.put('isLogged', true);
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(
+              builder: (builder) => HomePage()
+          )
+      );
     }
   }
 }
