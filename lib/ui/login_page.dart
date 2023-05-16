@@ -170,6 +170,11 @@ class _LoginPageState extends State<LoginPage> {
           String text = "";
           print('Login Clicked Event');
           login();
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(
+                  builder: (builder) => HomePage()
+              )
+          );
           // if(email == email.text && pass == pass.text){
           //   setState(() {
           //     isLoginSuccess = true;
@@ -222,11 +227,6 @@ class _LoginPageState extends State<LoginPage> {
       box1.put('WelPage_email', data['email']);
       box1.put('WelPage_pass', data['pass']);
       box1.put('isLogged', true);
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(
-              builder: (builder) => HomePage()
-          )
-      );
     }
   }
 }

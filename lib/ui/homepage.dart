@@ -1,3 +1,4 @@
+import 'package:final_project_tpm_pizza/ui/logout_page.dart';
 import 'package:final_project_tpm_pizza/ui/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -32,8 +33,8 @@ class _HomePageState extends State<HomePage> {
   static List<Widget> _widgetOptions = <Widget>[
     Menu(),
     Profile(),
+    LogoutPage()
     // Message(),
-    // Logout()
   ];
 
   void _onItemTapped(int index) {
@@ -63,10 +64,10 @@ class _HomePageState extends State<HomePage> {
                   icon: Icon(Icons.account_circle),
                   label: 'Profile'
               ),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.message),
-                  label: 'Message'
-              ),
+              // BottomNavigationBarItem(
+              //     icon: Icon(Icons.message),
+              //     label: 'Message'
+              // ),
               BottomNavigationBarItem(
                   icon: Icon(Icons.logout),
                   label: 'Logout'
