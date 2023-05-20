@@ -222,10 +222,10 @@ class _LoginPageState extends State<LoginPage> {
         box1.put('email', email.value.text);
         box1.put('pass', pass.value.text);
       }
-      box1.put('WelPage_firstName', data['firstName']);
-      box1.put('WelPage_lastName', data['lastName']);
-      box1.put('WelPage_email', data['email']);
-      box1.put('WelPage_pass', data['pass']);
+      // box1.put('WelPage_firstName', data['firstName']);
+      // box1.put('WelPage_lastName', data['lastName']);
+      // box1.put('WelPage_email', data['email']);
+      // box1.put('WelPage_pass', data['pass']);
       box1.put('isLogged', true);
     }
   }

@@ -1,8 +1,12 @@
-import 'dart:convert';
+import 'package:final_project_tpm_pizza/base/api_data_source.dart';
+import 'package:final_project_tpm_pizza/model/regist_model.dart';
 import 'package:final_project_tpm_pizza/ui/login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
+
+import '../base/api_connection.dart';
 
 class RegistrationPage extends StatefulWidget {
   RegistrationPage({Key? key}) : super(key: key);
@@ -12,12 +16,92 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  TextEditingController firstName = TextEditingController();
-  TextEditingController lastName = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController pass = TextEditingController();
+  var formKey = GlobalKey<FormState>();
+  var firstName = TextEditingController();
+  var lastName = TextEditingController();
+  var email = TextEditingController();
+  var pass = TextEditingController();
   bool isChecked = false;
   //bool isLoginSuccess = true;
+
+  validateUserEmail() async {
+    try {
+      // sending response
+      var res = await http.post(
+        Uri.parse(API.validateEmail),
+        body: {
+          'email': email.text.trim(),
+        },
+      );
+
+      String text = "";
+
+      if(res.statusCode == 200){ // from flutter app the connection with api to server - success
+        var resBody = jsonDecode(res.body);
+
+        if(resBody['emailFound'] == true){
+          text = 'Email is already in someone else use. Try another email.';
+        }else{
+          //'Register Success';
+          registerAndSaveUserRecord();
+        }
+        SnackBar snackBar = SnackBar(
+            content: Text(text)
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    }
+    catch (e){
+
+    }
+  }
+
+  registerAndSaveUserRecord() async {
+    RegistModel registModel = RegistModel(
+      firstName.text.trim(),
+      lastName.text.trim(),
+      email.text.trim(),
+      pass.text.trim(),
+    );
+
+    try{
+      var res = await http.post(
+        Uri.parse(API.signUp),
+        body: registModel.toJson(),
+      );
+
+      String text = "";
+
+      if(res.statusCode == 200){ // from flutter app the connection with api to server - success
+        var resBody = jsonDecode(res.body);
+
+        if(resBody['success'] == true){
+          text = 'Congratulation, you are sign up successfully';
+
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => LoginPage())
+          );
+
+          setState(() {
+            firstName.clear();
+            lastName.clear();
+            email.clear();
+            pass.clear();
+          });
+
+
+        }else{
+          text = 'Error Occurred, Try Again';
+        }
+        SnackBar snackBar = SnackBar(
+            content: Text(text)
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    }catch(e){
+      //print(e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +124,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 _loginButton(),
               ],
             ),
-            bottomNavigationBar: GestureDetector(
+            bottomNavigationBar: InkWell(
               onTap: () {
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => LoginPage())
@@ -171,56 +255,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
       height: 55,
       child: ElevatedButton(
           onPressed: (){
-            String text = "";
-            print('Registration Clicked Event');
-            registration();
-
-            // if(email == email && password == password){
-            //   setState(() {
-            //     //isLoginSuccess = true;
-            //     text = 'Login Success';
-            //
-            //   });
-            // } else {
-            //   setState(() {
-            //     //isLoginSuccess = false;
-            //     text = 'Login Failed, Username or Password Wrong';
-            //   });
-            // }
-            //
-            // SnackBar snackBar = SnackBar(
-            //     content: Text(text)
-            // );
-            // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            if(formKey.currentState!.validate()){
+              // validate the email
+              validateUserEmail();
+            }
           },
           child: Text('Register')
       ),
     );
-  }
-
-  Future registration() async {
-    var uri = "http://localhost/semester_6_BE/registration.php";
-
-    Map maped = {
-      'firstName': firstName.text,
-      'lastName': lastName.text,
-      'email': email.text,
-      'pass': pass.text
-    };
-
-    http.Response response = await http.post(Uri.parse(uri),
-        body: maped
-    );
-
-    var data = jsonDecode(response.body);
-
-    print('Data: ${data}');
-    if(data['success']=='1'){
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(
-              builder: (context) => LoginPage()
-          )
-      );
-    }
   }
 }
