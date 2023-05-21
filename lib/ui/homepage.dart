@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'menu.dart';
+import 'message.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,8 +34,8 @@ class _HomePageState extends State<HomePage> {
   static List<Widget> _widgetOptions = <Widget>[
     Menu(),
     Profile(),
+    Message(),
     LogoutPage()
-    // Message(),
   ];
 
   void _onItemTapped(int index) {
@@ -64,10 +65,10 @@ class _HomePageState extends State<HomePage> {
                   icon: Icon(Icons.account_circle),
                   label: 'Profile'
               ),
-              // BottomNavigationBarItem(
-              //     icon: Icon(Icons.message),
-              //     label: 'Message'
-              // ),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.message),
+                  label: 'Message'
+              ),
               BottomNavigationBarItem(
                   icon: Icon(Icons.logout),
                   label: 'Logout'
