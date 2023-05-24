@@ -8,9 +8,6 @@ Future<void> register(String firstName, String lastName, String email, String pa
 
   final response = await http.post(
     url,
-    headers: {
-      'Access-Control-Allow-Origin' : "*"
-    },
     body: {
       'firstName': firstName,
       'lastName': lastName,
