@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
       _rememberMe = _prefs.getBool('rememberMe') ?? false;
       if (_rememberMe) {
         _email.text = _prefs.getString('email') ?? '';
-        _pass.text = _prefs.getString('password') ?? '';
+        _pass.text = _prefs.getString('pass') ?? '';
       }
     });
   }
@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
     bool isLoggedIn = _prefs.getBool('isLoggedIn') ?? false;
     if (isLoggedIn) {
       _email.text = _prefs.getString('email') ?? '';
-      _pass.text = _prefs.getString('password') ?? '';
+      _pass.text = _prefs.getString('pass') ?? '';
       // Navigator.pushReplacement(
       //   context,
       //   MaterialPageRoute(builder: (context) => Dashboard()),
@@ -165,13 +165,13 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _login(BuildContext context) async {
     final String email = _email.text;
-    final String password = _pass.text;
+    final String pass = _pass.text;
 
     final response = await http.post(
       Uri.parse('http://localhost/semester_6_BE/login.php'),
       body: {
         'email': email,
-        'password': password,
+        'pass': pass,
       },
     );
 
@@ -183,11 +183,11 @@ class _LoginPageState extends State<LoginPage> {
 
         if (_rememberMe) {
           await _prefs.setString('email', email);
-          await _prefs.setString('password', password);
+          await _prefs.setString('pass', pass);
           await _prefs.setBool('rememberMe', true);
         } else {
           await _prefs.remove('email');
-          await _prefs.remove('password');
+          await _prefs.remove('pass');
           await _prefs.setBool('rememberMe', false);
         }
         Navigator.pushReplacement(
